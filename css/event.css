@@ -54,6 +54,7 @@ body {
 #image_description,
 #telegram_username,
 #text_message,
+#telegram_no,
 #tele_user {
   font-size: 16px;
   display: flex;

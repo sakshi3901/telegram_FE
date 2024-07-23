@@ -21,7 +21,7 @@ const Create_Data = () => {
     }
 
     data_dict = {
-        'contact': parseFloat(telegram_username),
+        'contact': parseFloat("91" + telegram_username),
         'pool_name': parseFloat(selected_grp),
         'pool_type': "group",
         'expiry': time_duration
