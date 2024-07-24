@@ -81,7 +81,7 @@ select {
   width: 100%;
 }
 
-.Submit_Button button {
+.Submit_Button button, #copy_link {
   border: none;
   outline: none;
   color: #fff;

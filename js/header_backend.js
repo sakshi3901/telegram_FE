@@ -92,7 +92,7 @@ $(document).ready(function () {
 
   message_timeout = 100
 
-  root = "https://f4aa-115-96-219-71.ngrok-free.app";
+  root = "https://5ec0-115-96-219-211.ngrok-free.app/";
   main_route = "/whatsapp_auto_crud";
 
   // -------- For Alerts

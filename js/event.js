@@ -15,7 +15,7 @@ const Create_Data = () => {
     var selected_grp = $('#select_grp').val();
 
     // input validation
-    if (telegram_username == "" || time_duration == "" || time_duration == null ) {
+    if (telegram_username == "" || time_duration == "" || time_duration == null) {
         toast_function('warning', 'Please Enter all fields!')
         return;
     }
@@ -79,9 +79,35 @@ const generate_link_api = (data_dict) => {
         if (data !== 'err') {
             toast_function('success', 'Event Created Successfully!')
             $('#telegram_username').val('')
-            $('#time_duration').val('1')
         } else {
             toast_function('danger', 'Unable to create event')
+        }
+    }).fail(function (response) {
+        logger.error("Error: " + response);
+    });
+}
+
+// Get Bot Link
+const get_bot_link = () => {
+
+    $.get(root + "/bot_link", function (data, status) {
+        if (data !== 'err') {
+            var text = data
+            if (data !== '') {
+
+                navigator.clipboard
+                    .writeText(text)
+                    .then(() => {
+                        logger.info("Link copied to clipboard: " + text);
+                        toast_function('success', 'Link copied to clipboard')
+                    })
+                    .catch((err) => {
+                        logger.error("Failed to copy Link: " + err);
+                        toast_function('danger', 'Failed to copy Link')
+                    });
+            }
+        } else {
+            toast_function('danger', 'Unable to get link')
         }
     }).fail(function (response) {
         logger.error("Error: " + response);
