@@ -94,6 +94,7 @@ $(document).ready(function () {
 
   root = "https://9605-2405-201-7-f052-8c11-ed2f-bdbc-c90f.ngrok-free.app/";
   main_route = "/whatsapp_auto_crud";
+  bot_link = "http://t.me/tciuserinfo_bot"
 
   // -------- For Alerts
   const toastElList = document.querySelectorAll('#toast-alert')

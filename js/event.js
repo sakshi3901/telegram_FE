@@ -14,6 +14,7 @@ const Create_Data = () => {
     var time_duration = $('#time_duration').val();
     var selected_grp = $('#select_grp').val();
     var selected_type = $('#select_type').val();
+    var telegram_country_code = $('#telegram_country_code').val();
 
     // input validation
     if (telegram_username == "" || time_duration == "" || selected_type == "" || time_duration == null) {
@@ -22,7 +23,7 @@ const Create_Data = () => {
     }
 
     data_dict = {
-        'contact': parseFloat("91" + telegram_username),
+        'contact': parseFloat(telegram_country_code + telegram_username),
         'pool_name': parseFloat(selected_grp),
         'pool_type': selected_type,
         'expiry': time_duration
@@ -80,20 +81,12 @@ const generate_link_api = (data_dict) => {
         if (data !== 'err') {
             toast_function('success', 'Event Created Successfully!')
             $('#telegram_username').val('')
-        } else {
-            toast_function('danger', 'Unable to create event')
-        }
-    }).fail(function (response) {
-        logger.error("Error: " + response);
-    });
-}
 
-// Get Bot Link
-const get_bot_link = () => {
+            var text = `To join our Telegram channel, please follow these steps:
+            Go to the ${bot_link} and click 'Start' to begin or type '/start'.
+            Type your phone number "${data_dict['contact']}" and send.
+            Once you've shared your number, the bot will send you the invite link to our channel.`
 
-    $.get(root + "/bot_link", function (data, status) {
-        if (data !== 'err') {
-            var text = data
             if (data !== '') {
 
                 navigator.clipboard
@@ -108,11 +101,27 @@ const get_bot_link = () => {
                     });
             }
         } else {
-            toast_function('danger', 'Unable to get link')
+            toast_function('danger', 'Unable to create event')
         }
     }).fail(function (response) {
         logger.error("Error: " + response);
     });
+}
+
+// Get Bot Link
+const get_bot_link = () => {
+
+    var text = bot_link
+    navigator.clipboard
+        .writeText(text)
+        .then(() => {
+            logger.info("Link copied to clipboard: " + text);
+            toast_function('success', 'Link copied to clipboard')
+        })
+        .catch((err) => {
+            logger.error("Failed to copy Link: " + err);
+            toast_function('danger', 'Failed to copy Link')
+        });
 }
 
 // Get Table Data
@@ -203,6 +212,32 @@ const fetch_group = () => {
     }).fail(function (response) {
         logger.error("Error: " + response);
     });
+}
+
+//---------- Show_Hide Table
+const show_hide = (text) => {
+    counter_for_show_hide += 1;
+    counter_for_show_hide1 += 1;
+    if (text == 'events') {
+        if (counter_for_show_hide % 2 == 0) {
+            $('.wrapper_1_button').text('Hide')
+            $('#table_datatable').show()
+        }
+        else {
+            $('.wrapper_1_button').text('Show')
+            $('#table_datatable').hide()
+        }
+    }
+    if (text == 'channel') {
+        if (counter_for_show_hide1 % 2 == 0) {
+            $('.wrapper_1_button1').text('Hide')
+            $('#table_datatable1').show()
+        }
+        else {
+            $('.wrapper_1_button1').text('Show')
+            $('#table_datatable1').hide()
+        }
+    }
 }
 
 //---------- Click User Action Submit
