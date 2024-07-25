@@ -95,6 +95,8 @@ $(document).ready(function () {
   root = "https://telebot.tradegini.com";
   main_route = "/whatsapp_auto_crud";
   bot_link = "http://t.me/tciuserinfo_bot"
+  min_PhoneNo_length = 8
+  max_PhoneNo_length = 10
 
   // -------- For Alerts
   const toastElList = document.querySelectorAll('#toast-alert')

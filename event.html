@@ -55,7 +55,7 @@
                                 <div class="mt-2 new-channel">
                                     <label for="telegram_username">Telegram User Phone Number</label>
                                     <div class="d-flex">
-                                        <input type="text" id="telegram_country_code" value="91" style="width: 50px;"
+                                        <input type="number" id="telegram_country_code" value="91" style="width: 50px;"
                                             class="me-2" />
                                         <input type="number" id="telegram_username" spellcheck="false"
                                             placeholder="Enter User Phone Number">
@@ -115,6 +115,29 @@
                     </div>
                 </div>
 
+                <!-- Check User Has joined the telegram channel Form -->
+                <div class="container-fluid">
+                    <div class="mx-0 row d-flex justify-content-center">
+                        <div class="wrapper">
+                            <div class="invite-link">
+                                <div id="new_channel_list"></div>
+                                <div class="mt-2 new-channel">
+                                    <label for="check_user">Check User Has Joined</label>
+                                    <div class="d-flex">
+                                        <input type="Number" id="check_user_code" value="91" style="width: 50px;"
+                                            class="me-2" />
+                                        <input type="number" id="check_user" spellcheck="false"
+                                            placeholder="Enter User Phone Number">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3 Submit_Button">
+                                <button id="check_user_joined" onclick="check_telegram_user()">Check</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Create User Action Form -->
                 <div class="container-fluid">
                     <div class="mx-0 row d-flex justify-content-center">
@@ -130,8 +153,12 @@
                                 </div>
                                 <div class="mt-2 post-text">
                                     <label for="tele_user">User Phone No</label>
-                                    <input type="text" id="tele_user" spellcheck="false"
-                                        placeholder="Enter User Phone No">
+                                    <div class="d-flex">
+                                        <input type="Number" id="tele_user_code" value="91" style="width: 50px;"
+                                            class="me-2" />
+                                        <input type="Number" id="tele_user" spellcheck="false"
+                                            placeholder="Enter User Phone No">
+                                    </div>
                                 </div>
                                 <div class="mt-2 channel-name">
                                     <label for="select_grp2">Select Group</label>

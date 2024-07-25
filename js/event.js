@@ -17,12 +17,17 @@ const Create_Data = () => {
     var telegram_country_code = $('#telegram_country_code').val();
 
     // input validation
-    if (telegram_username == "" || time_duration == "" || selected_type == "" || time_duration == null) {
+    if (telegram_username == "" || time_duration == "" || selected_type == "" || time_duration == null || telegram_country_code == '') {
         toast_function('warning', 'Please Enter all fields!')
         return;
     }
 
-    data_dict = {
+    if(telegram_username.length <= min_PhoneNo_length || telegram_username.length > max_PhoneNo_length){
+        toast_function('warning', 'Invalid Phone Number!')
+        return;
+    }
+
+    let data_dict = {
         'contact': parseFloat(telegram_country_code + telegram_username),
         'pool_name': parseFloat(selected_grp),
         'pool_type': selected_type,
@@ -38,15 +43,21 @@ const Create_User_Action_data = () => {
     var ban_unban = $('#ban_unban_select').val()
     var tele_user = $('#tele_user').val();
     var selected_grp = $('#select_grp2').val();
+    var tele_user_code = $('#tele_user_code').val();
 
     // input validation
-    if (ban_unban == "" || tele_user == "") {
+    if (ban_unban == "" || tele_user == "" || tele_user_code == "") {
         toast_function('warning', 'Please Enter all fields!')
         return;
     }
 
-    data_dict = {
-        'contact': parseFloat(tele_user),
+    if(tele_user.length <= min_PhoneNo_length || tele_user.length > max_PhoneNo_length){
+        toast_function('warning', 'Invalid Phone Number!')
+        return;
+    }
+
+    let data_dict = {
+        'contact': parseFloat(tele_user_code + tele_user),
         'pool_name': parseFloat(selected_grp),
     };
 
@@ -65,12 +76,36 @@ const Create_post_msg_data = () => {
         return;
     }
 
-    data_dict = {
+    let data_dict = {
         'message': msg,
         'pool_name': parseInt(selected_grp),
     };
 
     post_msg_api(data_dict)
+}
+
+//---------- Check If user has joined telegram channel
+const check_telegram_user = () => {
+
+    var check_user = $('#check_user').val()
+    var check_user_code = $('#telegram_country_code').val();
+
+    // input validation
+    if (check_user == "" || check_user_code == "") {
+        toast_function('warning', 'Please Enter all fields!')
+        return;
+    }
+
+    if(check_user.length <= min_PhoneNo_length || check_user.length > max_PhoneNo_length){
+        toast_function('warning', 'Invalid Phone Number!')
+        return;
+    }
+
+    let data_dict = {
+        'contact': parseFloat(check_user_code + check_user),
+    };
+
+    check_user_api(data_dict)
 }
 
 // Generate Link Api
@@ -102,6 +137,22 @@ const generate_link_api = (data_dict) => {
             }
         } else {
             toast_function('danger', 'Unable to create event')
+        }
+    }).fail(function (response) {
+        logger.error("Error: " + response);
+    });
+}
+
+// Check User Api
+const check_user_api = (data_dict) => {
+    data = JSON.stringify(data_dict);
+
+    $.get(root + "/telegram_crud_read", { 'data': data, 'op': 'read' }, function (data, status) {
+        console.log(data);
+        if (data == 'success') {
+            toast_function('success', 'User Has joined')
+        } else {
+            toast_function('danger', 'User Has not joined')
         }
     }).fail(function (response) {
         logger.error("Error: " + response);
