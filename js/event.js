@@ -114,6 +114,19 @@ const get_bot_link = () => {
     });
 }
 
+// Get Table Data
+const table_data = () => {
+    $.get(root + "/read_user", function (data, status) {
+        if (data !== 'err') {
+           console.log(data);
+        } else {
+            toast_function('danger', 'Unable to get link')
+        }
+    }).fail(function (response) {
+        logger.error("Error: " + response);
+    });
+}
+
 // user Action Api
 const User_Action_api = (data_dict, ban_unban) => {
     data = JSON.stringify(data_dict);
@@ -189,6 +202,7 @@ $(document).ready(function () {
     counter_for_show_hide1 = 0;
 
     fetch_group()
+    table_data()
 
     $("#Datatable tbody").on("click", "td", function () {
         var cell = $(this);
