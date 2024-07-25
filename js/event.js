@@ -118,10 +118,31 @@ const get_bot_link = () => {
 // Get Table Data
 const table_data = () => {
     $.get(root + "/read_user", function (data, status) {
-        if (data !== 'err') {
-           console.log(data);
-        } else {
-            toast_function('danger', 'Unable to get link')
+        Joined_user = JSON.parse(JSON.stringify(data));
+        for (var i = 0; i < Joined_user.length; i++) {
+            // data pre preprocessing
+            let Joined_date = Joined_user[i][0];
+            let User_Id = Joined_user[i][1];
+            let Name = Joined_user[i][2];
+            Joined_user[i][0] = moment.unix(Joined_date).format('DD/MM/YYYY HH:mm:ss')
+            Joined_user[i][1] = User_Id
+            Joined_user[i][2] = Name
+        }
+        if (Joined_user) {
+            if (counter_for_datatable == 0) {
+                counter_for_datatable += 1;
+                datatable = $("#Datatable").DataTable({
+                    paging: true,
+                    pageLength: 50,
+                    info: false,
+                    scrollX: true,
+                    scrollY: 550,
+                    order: true,
+                });
+            }
+            datatable.clear();
+            datatable.rows.add(Joined_user);
+            datatable.draw();
         }
     }).fail(function (response) {
         logger.error("Error: " + response);
