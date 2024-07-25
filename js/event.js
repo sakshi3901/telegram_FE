@@ -22,7 +22,7 @@ const Create_Data = () => {
         return;
     }
 
-    if(telegram_username.length <= min_PhoneNo_length || telegram_username.length > max_PhoneNo_length){
+    if (telegram_username.length <= min_PhoneNo_length || telegram_username.length > max_PhoneNo_length) {
         toast_function('warning', 'Invalid Phone Number!')
         return;
     }
@@ -51,7 +51,7 @@ const Create_User_Action_data = () => {
         return;
     }
 
-    if(tele_user.length <= min_PhoneNo_length || tele_user.length > max_PhoneNo_length){
+    if (tele_user.length <= min_PhoneNo_length || tele_user.length > max_PhoneNo_length) {
         toast_function('warning', 'Invalid Phone Number!')
         return;
     }
@@ -96,7 +96,7 @@ const check_telegram_user = () => {
         return;
     }
 
-    if(check_user.length <= min_PhoneNo_length || check_user.length > max_PhoneNo_length){
+    if (check_user.length <= min_PhoneNo_length || check_user.length > max_PhoneNo_length) {
         toast_function('warning', 'Invalid Phone Number!')
         return;
     }
@@ -118,9 +118,9 @@ const generate_link_api = (data_dict) => {
             $('#telegram_username').val('')
 
             var text = `To join our Telegram channel, please follow these steps:
-            Go to the ${bot_link} and click 'Start' to begin or type '/start'.
-            Type your phone number "${data_dict['contact']}" and send.
-            Once you've shared your number, the bot will send you the invite link to our channel.`
+-> Go to the ${bot_link} and click 'Start' to begin or type '/start'.
+-> Enter your phone number "${data_dict['contact']}".
+-> Once you've shared your number, the bot will send you an invite link to our channel.`
 
             if (data !== '') {
 
@@ -133,7 +133,7 @@ const generate_link_api = (data_dict) => {
                     .catch((err) => {
                         logger.error("Failed to copy Link: " + err);
                         toast_function('danger', 'Failed to copy Link')
-                    });
+                    })
             }
         } else {
             toast_function('danger', 'Unable to create event')
@@ -147,14 +147,17 @@ const generate_link_api = (data_dict) => {
 const check_user_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
-    $.get(root + "/telegram_crud_read", { 'data': data, 'op': 'read' }, function (data, status) {
-        console.log(data);
-        if (data == 'success') {
+    $.post(root + "/check_user", { 'data': data}, function (data, status) {
+        let status1 = (Object.entries(data)[1][1]);
+        if (status1 == "true") {
             toast_function('success', 'User Has joined')
-        } else {
+        } else if( status1 === "false") {
             toast_function('danger', 'User Has not joined')
+        } else if (data == 'err'){
+            toast_function('danger', 'Unable to check')
         }
     }).fail(function (response) {
+        toast_function('danger', 'Unable to check')
         logger.error("Error: " + response);
     });
 }

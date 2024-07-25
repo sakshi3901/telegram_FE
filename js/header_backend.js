@@ -57,7 +57,7 @@ logger = new Logger();
 const td_logout = () => {
   localStorage.clear();
   var pastDate = new Date(0);
-  document.cookie = "cookie=; expires=" + pastDate.toUTCString() + "; path=/";
+  document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
 
   window.location.href = "/"
 }
