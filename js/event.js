@@ -13,9 +13,10 @@ const Create_Data = () => {
     var telegram_username = $('#telegram_username').val()
     var time_duration = $('#time_duration').val();
     var selected_grp = $('#select_grp').val();
+    var selected_type = $('#select_type').val();
 
     // input validation
-    if (telegram_username == "" || time_duration == "" || time_duration == null) {
+    if (telegram_username == "" || time_duration == "" || selected_type == "" || time_duration == null) {
         toast_function('warning', 'Please Enter all fields!')
         return;
     }
@@ -23,7 +24,7 @@ const Create_Data = () => {
     data_dict = {
         'contact': parseFloat("91" + telegram_username),
         'pool_name': parseFloat(selected_grp),
-        'pool_type': "group",
+        'pool_type': selected_type,
         'expiry': time_duration
     };
 
