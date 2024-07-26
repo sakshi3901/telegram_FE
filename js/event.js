@@ -108,16 +108,19 @@ const check_telegram_user = () => {
     check_user_api(data_dict)
 }
 
+let text_Msg
+
 // Generate Link Api
 const generate_link_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
     $.post(root + "/telegram_crud", { 'data': data, 'op': 'create' }, function (data, status) {
-        if (data !== 'err') {
+        if (data !== 'err' || data !== 'UnAuthorised Access') {
+            console.log(data);
             toast_function('success', 'Event Created Successfully!')
             $('#telegram_username').val('')
 
-            var text = `To join our Telegram channel, please follow these steps:
+            text_Msg = `To join our Telegram channel, please follow these steps:
 -> Go to the ${bot_link} and click 'Start' to begin or type '/start'.
 -> Enter your phone number "${data_dict['contact']}".
 -> Once you've shared your number, the bot will send you an invite link to our channel.`
@@ -125,9 +128,9 @@ const generate_link_api = (data_dict) => {
             if (data !== '') {
 
                 navigator.clipboard
-                    .writeText(text)
+                    .writeText(text_Msg)
                     .then(() => {
-                        logger.info("Link copied to clipboard: " + text);
+                        logger.info("Link copied to clipboard: " + text_Msg);
                         toast_function('success', 'Link copied to clipboard')
                     })
                     .catch((err) => {
@@ -135,6 +138,8 @@ const generate_link_api = (data_dict) => {
                         toast_function('danger', 'Failed to copy Link')
                     })
             }
+
+            table_data()
         } else {
             toast_function('danger', 'Unable to create event')
         }
@@ -147,13 +152,13 @@ const generate_link_api = (data_dict) => {
 const check_user_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
-    $.post(root + "/check_user", { 'data': data}, function (data, status) {
+    $.post(root + "/check_user", { 'data': data }, function (data, status) {
         let status1 = (Object.entries(data)[1][1]);
         if (status1 == "true") {
             toast_function('success', 'User Has joined')
-        } else if( status1 === "false") {
+        } else if (status1 === "false") {
             toast_function('danger', 'User Has not joined')
-        } else if (data == 'err'){
+        } else if (data == 'err') {
             toast_function('danger', 'Unable to check')
         }
     }).fail(function (response) {
@@ -176,6 +181,22 @@ const get_bot_link = () => {
             logger.error("Failed to copy Link: " + err);
             toast_function('danger', 'Failed to copy Link')
         });
+}
+
+const get_msg = () => {
+    if (text_Msg !== '') {
+
+        navigator.clipboard
+            .writeText(text_Msg)
+            .then(() => {
+                logger.info("Link copied to clipboard: " + text_Msg);
+                toast_function('success', 'Link copied to clipboard')
+            })
+            .catch((err) => {
+                logger.error("Failed to copy Link: " + err);
+                toast_function('danger', 'Failed to copy Link')
+            })
+    }
 }
 
 // Get Table Data
