@@ -186,10 +186,18 @@ const table_data = () => {
             // data pre preprocessing
             let Joined_date = Joined_user[i][0];
             let User_Id = Joined_user[i][1];
-            let Name = Joined_user[i][2];
+            let PhoneNo = Joined_user[i][2];
+            let InviteLink = Joined_user[i][3];
+            let Actual_Exp = Joined_user[i][4];
+            let Month_Exp = Joined_user[i][5];
+            let Name = Joined_user[i][8];
             Joined_user[i][0] = moment.unix(Joined_date).format('DD/MM/YYYY HH:mm:ss')
             Joined_user[i][1] = User_Id
-            Joined_user[i][2] = Name
+            Joined_user[i][2] = PhoneNo
+            Joined_user[i][3] = InviteLink
+            Joined_user[i][4] = moment.unix(Actual_Exp).format('DD/MM/YYYY HH:mm:ss')
+            Joined_user[i][5] = Month_Exp
+            Joined_user[i][6] = Name
         }
         if (Joined_user) {
             if (counter_for_datatable == 0) {
@@ -221,6 +229,7 @@ const User_Action_api = (data_dict, ban_unban) => {
             toast_function('success', 'Event Created Successfully!')
             $('#tele_user').val('')
             $('#ban_unban_select').val('ban')
+            table_data()
         } else {
             toast_function('danger', 'Unable to create event')
         }
