@@ -115,7 +115,7 @@ const generate_link_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
     $.post(root + "/telegram_crud", { 'data': data, 'op': 'create' }, function (data, status) {
-        if (data !== 'err' || data !== 'UnAuthorised Access') {
+        if (data !== 'err' && data !== 'UnAuthorised Access') {
             console.log(data);
             toast_function('success', 'Event Created Successfully!')
             $('#telegram_username').val('')
