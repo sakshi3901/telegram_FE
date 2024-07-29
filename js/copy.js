@@ -7,6 +7,16 @@ right_table = []
 // Get Table Data
 const table_data = () => {
     $.post(root + "/copy_crud", { op: 'read' }, function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
         Table_data = JSON.parse(data);
 
         left_table = Table_data['left_table']
@@ -49,6 +59,16 @@ const send_data = (left) => {
     }
 
     $.post(root + "/copy_crud", { op: 'create', data: JSON.stringify(data_dict) }, function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+        
         if (data == 'success') {
             toast_function('success', 'Table Updated Successfully!')
             table_data()

@@ -115,6 +115,17 @@ const generate_link_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
     $.post(root + "/telegram_crud", { 'data': data, 'op': 'create' }, function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
+
         if (data !== 'err' && data !== 'UnAuthorised Access') {
             console.log(data);
             toast_function('success', 'Event Created Successfully!')
@@ -153,6 +164,16 @@ const check_user_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
     $.post(root + "/check_user", { 'data': data }, function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
         let status1 = (Object.entries(data)[1][1]);
         if (status1 == "true") {
             toast_function('success', 'User Has joined')
@@ -199,10 +220,28 @@ const get_msg = () => {
     }
 }
 
-// Get Table Data
+// Get Table Data API
 const table_data = () => {
     $.get(root + "/read_user", function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
         Joined_user = JSON.parse(JSON.stringify(data));
+        Joined_user.reverse()
+
+        let check_switch = $('#flexSwitchCheckChecked').is(':checked')
+
+        if (check_switch) {
+            Joined_user = Joined_user.slice(0, 300);
+        }
+
         for (var i = 0; i < Joined_user.length; i++) {
             // data pre preprocessing
             let Joined_date = Joined_user[i][0];
@@ -220,6 +259,8 @@ const table_data = () => {
             Joined_user[i][5] = Month_Exp
             Joined_user[i][6] = Name
         }
+
+
         if (Joined_user) {
             if (counter_for_datatable == 0) {
                 counter_for_datatable += 1;
@@ -246,6 +287,16 @@ const User_Action_api = (data_dict, ban_unban) => {
     data = JSON.stringify(data_dict);
 
     $.post(root + "/user_action", { 'data': data, 'op': ban_unban }, function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
         if (data !== 'err') {
             toast_function('success', 'Event Created Successfully!')
             $('#tele_user').val('')
@@ -264,6 +315,16 @@ const post_msg_api = (data_dict) => {
     data = JSON.stringify(data_dict);
 
     $.post(root + "/send_message", { 'data': data }, function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
         if (data !== 'err') {
             toast_function('success', 'Event Created Successfully!')
             $('#text_message').val('')
@@ -283,6 +344,17 @@ document.querySelector("#generate_invite_link").addEventListener("click", () => 
 // fetch group
 const fetch_group = () => {
     $.post(root + "/pool_list", function (data, status) {
+
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        }
+
+        
         Channel_Read = Object.entries(data)
     }).done(function () {
         if (Channel_Read.length > 0) {
@@ -324,6 +396,20 @@ const show_hide = (text) => {
     }
 }
 
+
+const checklength = (id) => {
+    var inputField = $(`#${id}`);
+    var value = inputField.val();
+
+    // Check if the length is greater than 10
+    if (value.length > 10) {
+        // Keep only the last 10 digits
+        value = value.slice(-10);
+        // Update the input field value
+        inputField.val(value);
+    }
+}
+
 //---------- Click User Action Submit
 document.querySelector("#post_message").addEventListener("click", () => {
     Create_post_msg_data();
@@ -341,6 +427,8 @@ $(document).ready(function () {
 
     counter_for_show_hide = 0;
     counter_for_show_hide1 = 0;
+
+    table_limit = 300
 
     fetch_group()
     table_data()
@@ -392,6 +480,10 @@ $(document).ready(function () {
             $(this).val('');
         }
 
+    });
+
+    $('#flexSwitchCheckChecked').on('change', function(){
+        table_data()
     });
 
 });
