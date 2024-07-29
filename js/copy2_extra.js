@@ -4,14 +4,18 @@ previousContent_1 = '';     // left table
 left_table = []
 right_table = []
 
+root_1 = "https://eccc-2405-201-7-f83a-ace6-fb9f-a4a4-f5c.ngrok-free.app"
+
 // Get Table Data
 const table_data = () => {
-    $.post(root + "/copy_crud", { op: 'read' }, function (data, status) {
+    $.post(root_1 + "/copy_crud", { op: 'read' }, function (data, status) {
         Table_data = JSON.parse(data);
 
         left_table = Table_data['left_table']
+        right_table = Table_data['right_table']
 
         left_table_temp = []
+        right_table_temp = []
 
         for (var i = 0; i < left_table.length; i++) {
             // data pre preprocessing
@@ -36,6 +40,30 @@ const table_data = () => {
             datatable.rows.add(left_table_temp);
             datatable.draw();
         }
+
+        // for (var i = 0; i < right_table.length; i++) {
+        //     // data pre preprocessing
+        //     let Name = right_table[i];
+        //     let temp = [Name, `<i class="fa fa-trash" onClick="removeDataRight('${Name}')"></i>`]
+        //     right_table_temp.push(temp)
+        //     temp = []
+        // }
+        // if (right_table_temp) {
+        //     if (counter_for_datatable_right == 0) {
+        //         counter_for_datatable_right += 1;
+        //         datatable_1 = $("#clipboardTable").DataTable({
+        //             paging: false,
+        //             pageLength: 50,
+        //             info: false,
+        //             scrollX: false,
+        //             order: false,
+        //             searching: false
+        //         });
+        //     }
+        //     datatable_1.clear();
+        //     datatable_1.rows.add(right_table_temp);
+        //     datatable_1.draw();
+        // }
     }).fail(function (response) {
         logger.error("Error: " + response);
     });
@@ -48,7 +76,7 @@ const send_data = (left) => {
         left_table: left,
     }
 
-    $.post(root + "/copy_crud", { op: 'create', data: JSON.stringify(data_dict) }, function (data, status) {
+    $.post(root_1 + "/copy_crud", { op: 'create', data: JSON.stringify(data_dict) }, function (data, status) {
         if (data == 'success') {
             toast_function('success', 'Table Updated Successfully!')
             table_data()
@@ -70,6 +98,41 @@ const removeDataLeft = (data) => {
     }
 }
 
+// const removeDataRight = (data) => {
+//     // Optionally remove the value from `left_table` as well
+//     const index = right_table.indexOf(data);
+//     if (index > -1) {
+//         right_table.splice(index, 1);
+//         send_data(left_table, right_table)
+//     }
+// }
+
+// Clipboard Function (RIGHT TABLE)
+function checkClipboard() {
+    navigator.clipboard.readText().then(text => {
+
+        if (left_table.includes(text) || right_table.includes(text)) {
+            return
+        }
+
+        if (text !== previousContent) {
+            previousContent = text;
+
+            if (right_table.length >= 50) {
+                right_table.splice(0, 1);
+            }
+
+            right_table.push(text)
+            right_table.reverse()
+
+            send_data(left_table, right_table)
+
+        }
+    }).catch(err => {
+        console.error('Failed to read clipboard contents: ', err);
+    });
+}
+
 //---------- On Ready - Refresh
 $(document).ready(function () {
 
@@ -82,6 +145,9 @@ $(document).ready(function () {
 
     // To initialize, focus the hidden input field to capture clipboard data
     $('#hiddenInput').focus();
+
+    // Periodically check the clipboard content
+    // setInterval(checkClipboard, 100); // Check every second
 
     $("tbody").on("click", "td:nth-child(1)", function () {
         var cell = $(this);
@@ -113,7 +179,17 @@ document.querySelector(".Submit_Button").addEventListener("click", () => {
 
         left_table.push(formattedText)
         left_table.reverse()
-        send_data(left_table)
+        send_data(left_table, right_table)
         $('#text_message_1').val('')
     }
 });
+
+//---------- Click User Action Clear Storage
+// document.querySelector('.wrapper_2 h4').addEventListener("click", () => {
+//     let con = confirm('Are you sure you want to clear all storage ?')
+//     if (con) {
+//         left_table = []
+//         right_table = []
+//         send_data(left_table, right_table)
+//     }
+// })
