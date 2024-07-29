@@ -1,8 +1,4 @@
-previousContent = '';       // right table
-previousContent_1 = '';     // left table 
 
-left_table = []
-right_table = []
 
 // Get Table Data
 const table_data = () => {
@@ -17,35 +13,42 @@ const table_data = () => {
             window.location.href = "/"
         }
 
-        Table_data = JSON.parse(data);
-
-        left_table = Table_data['left_table']
-
-        left_table_temp = []
-
-        for (var i = 0; i < left_table.length; i++) {
-            // data pre preprocessing
-            let Name = left_table[i];
-            let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${Name}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
-            left_table_temp.push(temp)
-            temp = []
+        if (data) {
+            Table_data = JSON.parse(data);
+            left_table = Table_data['left_table']
         }
-        if (left_table_temp) {
-            if (counter_for_datatable_left == 0) {
-                counter_for_datatable_left += 1;
-                datatable = $("#textTable").DataTable({
-                    paging: false,
-                    pageLength: 50,
-                    info: false,
-                    scrollX: false,
-                    order: false,
-                    searching: false
-                });
+
+        if (left_table) {
+            left_table_temp = []
+
+            for (var i = 0; i < left_table.length; i++) {
+                // data pre preprocessing
+                let Name = left_table[i];
+                let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${Name}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
+                left_table_temp.push(temp)
+                temp = []
             }
-            datatable.clear();
-            datatable.rows.add(left_table_temp);
-            datatable.draw();
+            if (left_table_temp) {
+                if (counter_for_datatable_left == 0) {
+                    counter_for_datatable_left += 1;
+                    datatable = $("#textTable").DataTable({
+                        paging: false,
+                        pageLength: 50,
+                        info: false,
+                        scrollX: false,
+                        order: false,
+                        searching: false
+                    });
+                }
+                datatable.clear();
+                datatable.rows.add(left_table_temp);
+                datatable.draw();
+            }
         }
+
+
+
+
     }).fail(function (response) {
         logger.error("Error: " + response);
     });
@@ -68,7 +71,7 @@ const send_data = (left) => {
 
             window.location.href = "/"
         }
-        
+
         if (data == 'success') {
             toast_function('success', 'Table Updated Successfully!')
             table_data()
@@ -97,6 +100,12 @@ $(document).ready(function () {
 
     counter_for_datatable_left = 0;
     counter_for_datatable_right = 0;
+
+    previousContent = '';       // right table
+    previousContent_1 = '';     // left table 
+
+    left_table = []
+    right_table = []
 
     table_data()
 
