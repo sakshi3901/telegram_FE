@@ -65,7 +65,7 @@ const removeDataLeft = (data) => {
         const index = left_table.indexOf(data);
         if (index > -1) {
             left_table.splice(index, 1);
-            send_data(left_table, right_table)
+            send_data(left_table)
         }
     }
 }
