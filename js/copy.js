@@ -16,10 +16,17 @@ $(document).ready(function () {
 
             if (left_table.includes(text) || right_table.includes(text)) {
                 return
-            } else {
-                right_table.push(text)
-                localStorage.setItem("rightTable", JSON.stringify(right_table));
             }
+
+            if (right_table.length >= 50) {
+                right_table.splice(0, 1);
+                localStorage.setItem("rightTable", JSON.stringify(right_table));
+                $('#clipboardTable tbody tr:last').remove();
+            }
+
+            right_table.push(text)
+            localStorage.setItem("rightTable", JSON.stringify(right_table));
+
 
             if (text !== previousContent) {
                 previousContent = text;
@@ -78,10 +85,10 @@ $(document).ready(function () {
             localStorage.removeItem("rightTable")
             $('#textTable tbody').empty();
             $('#clipboardTable tbody').empty();
+            left_table = []
+            right_table = []
         }
     })
-
-
 });
 
 const getLocalStorage = () => {
@@ -156,6 +163,13 @@ const push_data_into_table = () => {
 
     if (formattedText !== previousContent_1) {
         previousContent_1 = formattedText;
+
+        if (left_table.length >= 50) {
+            left_table.splice(0, 1);
+            localStorage.setItem("leftTable", JSON.stringify(left_table));
+            $('#textTable tbody tr:last').remove();
+        }
+
         left_table.push(value)
         localStorage.setItem("leftTable", JSON.stringify(left_table));
 
