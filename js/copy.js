@@ -13,8 +13,13 @@ const table_data = () => {
             window.location.href = "/"
         }
 
-        if (data) {
-            Table_data = JSON.parse(data);
+        if (data == '{}') {
+            return
+        } else {
+            Table_data = JSON.parse(data)
+        }
+
+        if ('left_table' in Table_data) {
             left_table = Table_data['left_table']
         }
 
@@ -45,8 +50,6 @@ const table_data = () => {
                 datatable.draw();
             }
         }
-
-
 
 
     }).fail(function (response) {
@@ -135,6 +138,9 @@ document.querySelector(".Submit_Button").addEventListener("click", () => {
 
     if (formattedText !== previousContent_1) {
         previousContent_1 = formattedText;
+
+        console.log(left_table)
+        console.log(left_table.length)
 
         if (left_table.length >= 50) {
             left_table.splice(0, 1);
