@@ -1,5 +1,3 @@
-
-
 // Get Table Data
 const table_data = () => {
     $.post(root + "/copy_crud", { op: 'read' }, function (data, status) {
@@ -9,8 +7,9 @@ const table_data = () => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         if (data == '{}') {
@@ -71,8 +70,9 @@ const send_data = (left) => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         if (data == 'success') {

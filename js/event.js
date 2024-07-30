@@ -121,8 +121,9 @@ const generate_link_api = (data_dict) => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
 
@@ -170,8 +171,9 @@ const check_user_api = (data_dict) => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         let status1 = (Object.entries(data)[1][1]);
@@ -229,8 +231,9 @@ const table_data = () => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         Joined_user = JSON.parse(JSON.stringify(data));
@@ -293,8 +296,9 @@ const User_Action_api = (data_dict, ban_unban) => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         if (data !== 'err') {
@@ -321,8 +325,9 @@ const post_msg_api = (data_dict) => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         if (data !== 'err') {
@@ -350,8 +355,9 @@ const fetch_group = () => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         }
 
         
@@ -423,8 +429,9 @@ const copy_db = () => {
             localStorage.clear();
             var pastDate = new Date(0);
             document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-
-            window.location.href = "/"
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 3000);
         } else {
             toast_function('success', 'Download Successful')
         }
