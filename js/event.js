@@ -415,6 +415,27 @@ document.querySelector("#post_message").addEventListener("click", () => {
     Create_post_msg_data();
 });
 
+//---------- copying DB
+const copy_db = () => {
+    $.get(root + "/download", function (data, status) {
+        if (data == 'UnAuthorised Access') {
+            toast_function('danger', 'session expired')
+            localStorage.clear();
+            var pastDate = new Date(0);
+            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
+
+            window.location.href = "/"
+        } else {
+            toast_function('success', 'Download Successful')
+        }
+    })
+} 
+
+//---------- click to download button
+document.querySelector("#dbDownload").addEventListener("click", () => { 
+    copy_db()
+})
+
 //---------- On Ready - Refresh
 $(document).ready(function () {
 
