@@ -421,27 +421,31 @@ document.querySelector("#post_message").addEventListener("click", () => {
     Create_post_msg_data();
 });
 
-//---------- copying DB
-const copy_db = () => {
-    $.get(root + "/download", function (data, status) {
-        if (data == 'UnAuthorised Access') {
-            toast_function('danger', 'session expired')
-            localStorage.clear();
-            var pastDate = new Date(0);
-            document.cookie = "lt=; expires=" + pastDate.toUTCString() + "; path=/";
-            setTimeout(() => {
-                window.location.href = "/"
-            }, 3000);
-        } else {
-            toast_function('success', 'Download Successful')
-        }
-    })
-} 
-
 //---------- click to download button
-document.querySelector("#dbDownload").addEventListener("click", () => { 
-    copy_db()
-})
+document.getElementById('dbDownload').addEventListener('click', () => {
+    const apiUrl = root + '/download'; // Replace with your API endpoint
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob(); // Convert response to Blob
+        })
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'backup.db'; // Specify the file name
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url); // Clean up
+
+            toast_function('success', 'File downloaded successfully');
+        })
+        .catch(error => console.error('Error downloading file:', error));
+});
 
 //---------- On Ready - Refresh
 $(document).ready(function () {
