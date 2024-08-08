@@ -28,7 +28,7 @@ const table_data = () => {
             for (var i = 0; i < left_table.length; i++) {
                 // data pre preprocessing
                 let Name = left_table[i];
-                let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick='removeDataLeft("${Name}")' style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
+                let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${Name}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
                 left_table_temp.push(temp)
                 temp = []
             }
