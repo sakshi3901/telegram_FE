@@ -26,8 +26,9 @@ const table_data = () => {
 
             for (var i = 0; i < Object.values(left_table).length; i++) {
                 // data pre preprocessing
-                let Name = left_table[i];
-                let temp = [i, Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${i}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
+                let key = Object.keys(left_table)[i]
+                let Name = Object.values(left_table)[i];
+                let temp = [key, Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${key}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
                 left_table_temp.push(temp)
                 temp = []
             }
@@ -80,7 +81,6 @@ const send_data = (left) => {
         }
     })
 }
-
 
 // Remove Table Data
 const removeDataLeft = (data) => {
@@ -139,7 +139,7 @@ document.querySelector(".Submit_Button").addEventListener("click", () => {
             delete left_table[firstKey];
         }
 
-        left_table[Object.keys(left_table).length] = formattedText
+        left_table[moment().unix()] = formattedText
 
         // Convert object to an array of [key, value] pairs
         let entries = Object.entries(left_table);
