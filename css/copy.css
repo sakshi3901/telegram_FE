@@ -119,10 +119,15 @@ td a {
 
 th:first,
 td:first {
-  width: 90%;
+  width: 5%;
 }
 
 th:nth-child(2),
 td:nth-child(2) {
+  width: 85%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
   width: 10%;
 }
