@@ -27,7 +27,7 @@ const table_data = () => {
             for (var i = 0; i < Object.values(left_table).length; i++) {
                 // data pre preprocessing
                 let Name = left_table[i];
-                let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${i}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
+                let temp = [i, Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${i}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
                 left_table_temp.push(temp)
                 temp = []
             }
@@ -110,7 +110,7 @@ $(document).ready(function () {
     // To initialize, focus the hidden input field to capture clipboard data
     $('#hiddenInput').focus();
 
-    $("tbody").on("click", "td:nth-child(1)", function () {
+    $("tbody").on("click", "td:nth-child(2)", function () {
         var cell = $(this);
         var text = cell['0']['innerText'];
 
