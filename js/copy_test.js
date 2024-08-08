@@ -1,7 +1,6 @@
 // Get Table Data
 const table_data = () => {
     $.post(root + "/copy_crud", { op: 'read' }, function (data, status) {
-
         if (data == 'UnAuthorised Access') {
             toast_function('danger', 'session expired')
             localStorage.clear();
@@ -25,10 +24,10 @@ const table_data = () => {
         if (left_table) {
             left_table_temp = []
 
-            for (var i = 0; i < left_table.length; i++) {
+            for (var i = 0; i < Object.values(left_table).length; i++) {
                 // data pre preprocessing
                 let Name = left_table[i];
-                let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${Name}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
+                let temp = [Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${i}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
                 left_table_temp.push(temp)
                 temp = []
             }
@@ -87,12 +86,8 @@ const send_data = (left) => {
 const removeDataLeft = (data) => {
     let con = confirm('are you sure you want to remove ?')
     if (con) {
-        // Optionally remove the value from `left_table` as well
-        const index = left_table.indexOf(data);
-        if (index > -1) {
-            left_table.splice(index, 1);
-            send_data(left_table)
-        }
+        delete left_table[data];
+        send_data(left_table)
     }
 }
 
@@ -139,16 +134,21 @@ document.querySelector(".Submit_Button").addEventListener("click", () => {
     if (formattedText !== previousContent_1) {
         previousContent_1 = formattedText;
 
-        console.log(left_table)
-        console.log(left_table.length)
-
-        if (left_table.length >= 50) {
-            left_table.splice(0, 1);
+        if (Object.keys(left_table).length >= 50) {
+            const firstKey = Object.keys(left_table)[0];
+            delete left_table[firstKey];
         }
 
-        left_table.push(formattedText)
-        left_table.reverse()
-        send_data(left_table)
+        left_table[Object.keys(left_table).length] = formattedText
+
+        // Convert object to an array of [key, value] pairs
+        let entries = Object.entries(left_table);
+        // Reverse the array
+        entries.reverse();
+        // Convert the reversed array back to an object
+        let reversedLeftTable = Object.fromEntries(entries);
+
+        send_data(reversedLeftTable)
         $('#text_message_1').val('')
     }
 });
