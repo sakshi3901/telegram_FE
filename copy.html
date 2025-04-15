@@ -35,7 +35,7 @@
                         <div class="wrapper_2 d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
                                 <h3>Clipboard Content</h3>
-                                <a href="/event.html" class="ps-5 text-white" style="font-size: 24px;">Event</a>   
+                                <a href="/event.html" class="ps-5 text-white" style="font-size: 24px;">Event</a>
                             </div>
                         </div>
                     </div>
@@ -45,6 +45,12 @@
                     <div class="mx-0 row d-flex justify-content-center align-items-center">
                         <div class="col-12">
                             <div class="">
+                                <h6>Enter Key</h6>
+                                <div class="invite-link d-flex align-items-center justify-content-center mb-3">
+                                    <div class="me-2 post-text w-100">
+                                        <input type="text" id="key_input" spellcheck="false"></input>
+                                    </div>
+                                </div>
                                 <h6>Enter Mesage</h6>
                                 <div class="invite-link d-flex align-items-center justify-content-center">
                                     <div class="me-2 post-text w-100">
@@ -55,23 +61,23 @@
                                     </div>
                                 </div>
 
-                                <div class="tableParentContainer" style="height: 60vh !important; overflow-y: auto !important;">
+                                <div class="keyList d-flex" style="flex-wrap: wrap; row-gap: 15px;"></div>
 
-                                <table class="w-100" id="textTable" style="color: white;">
-                                    <thead>
-                                        <tr style="background-color: #444;">
-                                            <th>No.</th>
-                                            <th>Content</th>
-                                            <th class="text-center"><i class="fa-solid fa-trash"></i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- content will be inserted here -->
-                                    </tbody>
-                                </table>
-
-                            </div>
-
+                                <div class="tableParentContainer"
+                                    style="height: 60vh !important; overflow-y: auto !important;">
+                                    <table class="w-100" id="textTable" style="color: white;">
+                                        <thead>
+                                            <tr style="background-color: #444;">
+                                                <th>Key</th>
+                                                <th>Content</th>
+                                                <th class="text-center"><i class="fa-solid fa-trash"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- content will be inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

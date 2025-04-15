@@ -23,7 +23,7 @@ const table_data = () => {
 
         if (left_table) {
             left_table_temp = []
-
+            $('.keyList').empty()
             for (var i = 0; i < Object.values(left_table).length; i++) {
                 // data pre preprocessing
                 let key = Object.keys(left_table)[i]
@@ -31,6 +31,7 @@ const table_data = () => {
                 let temp = [key, Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${key}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
                 left_table_temp.push(temp)
                 temp = []
+                $('.keyList').append(`<div class="d-flex align-items-center justify-content-center keyValue" onClick="copyValue('${Name}')">${key}</div>`)
             }
             if (left_table_temp) {
                 if (counter_for_datatable_left == 0) {
@@ -91,6 +92,17 @@ const removeDataLeft = (data) => {
     }
 }
 
+// Copy Data
+const copyValue = (data) => {
+    data = data.replace(/<br\s*\/?>/gi, '\n')
+    navigator.clipboard.writeText(data).then(() => {
+        toast_function('success', 'Text copied to clipboard')
+    }).catch((err) => {
+        logger.error("Failed to copy text: " + err);
+        toast_function('danger', 'Failed to copy text')
+    });
+}
+
 //---------- On Ready - Refresh
 $(document).ready(function () {
 
@@ -127,6 +139,7 @@ $(document).ready(function () {
 //---------- Click User Action Submit (LEFT TABLE)
 document.querySelector(".Submit_Button").addEventListener("click", () => {
 
+    let keyInput = $('#key_input').val()
     let value = $('#text_message_1').val()
 
     let formattedText = value.replace(/\n/g, '<br>');
@@ -139,16 +152,20 @@ document.querySelector(".Submit_Button").addEventListener("click", () => {
             delete left_table[firstKey];
         }
 
-        left_table[moment().unix()] = formattedText
+        if (!left_table.hasOwnProperty(keyInput)) {
+            left_table[keyInput] = formattedText;
+            // Convert object to an array of [key, value] pairs
+            let entries = Object.entries(left_table);
+            // Reverse the array
+            entries.reverse();
+            // Convert the reversed array back to an object
+            let reversedLeftTable = Object.fromEntries(entries);
 
-        // Convert object to an array of [key, value] pairs
-        let entries = Object.entries(left_table);
-        // Reverse the array
-        entries.reverse();
-        // Convert the reversed array back to an object
-        let reversedLeftTable = Object.fromEntries(entries);
-
-        send_data(reversedLeftTable)
-        $('#text_message_1').val('')
+            send_data(reversedLeftTable)
+            $('#text_message_1').val('')
+            $('#key_input').val('')
+        } else {
+            toast_function('danger', `Key "${keyInput}" already exists. Not adding.`);
+        }
     }
 });

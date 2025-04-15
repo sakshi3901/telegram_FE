@@ -131,3 +131,12 @@ th:nth-child(3),
 td:nth-child(3) {
   width: 10%;
 }
+
+.keyValue {
+  cursor: pointer;
+  border: 2px solid;
+  padding: 5px;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
