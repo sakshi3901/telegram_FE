@@ -31,7 +31,9 @@ const table_data = () => {
                 let temp = [key, Name, `<div class="d-flex align-items-center justify-content-center" onClick="removeDataLeft('${key}')" style="cursor: pointer"><i class="fa fa-trash"></i></div>`]
                 left_table_temp.push(temp)
                 temp = []
-                $('.keyList').append(`<div class="d-flex align-items-center justify-content-center keyValue" onClick="copyValue('${Name}')">${key}</div>`)
+                const $div = $(`<div class="d-flex align-items-center justify-content-center keyValue">${key}</div>`);
+                $div.on('click', () => copyValue(Name));
+                $('.keyList').append($div);
             }
             if (left_table_temp) {
                 if (counter_for_datatable_left == 0) {
