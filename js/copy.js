@@ -149,7 +149,7 @@ document.querySelector(".Submit_Button").addEventListener("click", () => {
     if (formattedText !== previousContent_1) {
         previousContent_1 = formattedText;
 
-        if (Object.keys(left_table).length >= 60) {
+        if (Object.keys(left_table).length >= 70) {
             const firstKey = Object.keys(left_table)[0];
             delete left_table[firstKey];
         }
